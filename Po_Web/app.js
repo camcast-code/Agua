@@ -56,4 +56,34 @@ form.addEventListener("submit", async (e) => {
 //  DEBE DESPARARSE CUANDO SE DE CLICK EN EL BOTON ER REPORTES
 //=========================================================================
 
-botonVer.addEventListener("click", async (e) => { });
+botonVer.addEventListener("click", async (e) => { 
+
+ resultado.innerHTML = "...obteniendo reportes";
+
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+        const data = await response.json();
+
+        let html = <div class="space-y-3">;
+
+        data.forEach(element => {
+            html += `
+            <div>
+                <strong>Titulo:</strong> ${element.title}<br>
+                <strong>Contenido:</strong> ${element.body}<br>
+                <span>ID: ${element.id}</span>
+            </div>
+            `;
+        });
+
+        html += </div>;
+        resultado.innerHTML = html;
+
+    } catch (error) {
+        resultado.innerHTML = `
+        <div>
+            Error al obtener los reportes.
+        </div>
+        `;
+    }
+});
